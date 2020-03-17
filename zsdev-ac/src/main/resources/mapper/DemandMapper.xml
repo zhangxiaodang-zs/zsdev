@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sdzs.zsdev.ac.demand.DemandRepository">
+
+    <!--
+         Copyright(C) ShanDongYinFang 2019.
+         <p>
+         web端机构信息操作Mapper.
+         @author 门海峰 2020/03/17.
+         @version V0.0.1.
+         <p>
+         更新履历： V0.0.1 2020/03/17 门海峰 创建.
+       -->
+    <!-- 查询主机构信息列表. -->
+    <select id="demandQueryList" resultType="Map" parameterType="Map">
+        SELECT
+        d.id as id,
+        d.project_id as projectid,
+        d.demand_name as demandname,
+        d.start_time as starttime,
+        d.end_time as endtime,
+        d.demand_content as demandcontent,
+        d.principal as principal,
+        d.addtime as addtime,
+        d.updtime as updtime
+        FROM
+        zs_demand d
+        WHERE
+        1 = 1
+        <if test="demandname != null and demandname != ''">
+            AND p.demand_name LIKE "%"#{demandname}"%"
+        </if>
+        <if test="principal != null and principal != ''">
+            AND p.principal LIKE "%"#{principal}"%"
+        </if>
+        ORDER BY d.addtime DESC
+        <if test="pagingOrNot != null and pagingOrNot != ''">
+            LIMIT #{startindex},#{pagesize};
+        </if>
+    </select>
+
+    <select id="number" resultType="int">
+        SELECT
+            count( 1 )
+        FROM
+            zs_demand
+    </select>
+</mapper>

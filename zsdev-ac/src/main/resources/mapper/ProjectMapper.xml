@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sdzs.zsdev.ac.project.ProjectRepository">
+
+    <!--
+         Copyright(C) ShanDongYinFang 2019.
+         <p>
+         web端机构信息操作Mapper.
+         @author 门海峰 2020/03/17.
+         @version V0.0.1.
+         <p>
+         更新履历： V0.0.1 2020/03/17 门海峰 创建.
+       -->
+    <!-- 查询主机构信息列表. -->
+    <select id="projectQueryList" resultType="Map" parameterType="Map">
+        SELECT
+        p.id as id,
+        p.project_id as projectid,
+        p.project_name as projectname,
+        p.expected_st_time as expectedsttime,
+        p.expected_en_time as expectedentime,
+        p.actual_st_time as actualsttime,
+        p.actual_en_time as actualentime,
+        p.introduction as introduction,
+        p.principal as principal,
+        p.addtime as addtime,
+        p.updtime as updtime
+        FROM
+        zs_project p
+        WHERE
+        1 = 1
+        <if test="projectname != null and projectname != ''">
+            AND p.project_name LIKE "%"#{projectname}"%"
+        </if>
+        <if test="principal != null and principal != ''">
+            AND p.principal LIKE "%"#{principal}"%"
+        </if>
+        ORDER BY p.addtime DESC
+        <if test="pagingOrNot != null and pagingOrNot != ''">
+            LIMIT #{startindex},#{pagesize};
+        </if>
+    </select>
+
+    <select id="number" resultType="int">
+        SELECT
+            count( 1 )
+        FROM
+            zs_project
+    </select>
+</mapper>
