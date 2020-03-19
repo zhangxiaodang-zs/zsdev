@@ -22,22 +22,40 @@
         d.end_time as endtime,
         d.demand_content as demandcontent,
         d.principal as principal,
+        u.uname as username,
         d.addtime as addtime,
         d.updtime as updtime
         FROM
         zs_demand d
+        left join turnin_user u on d.principal=u.uid
         WHERE
         1 = 1
         <if test="demandname != null and demandname != ''">
-            AND p.demand_name LIKE "%"#{demandname}"%"
+            AND d.demand_name LIKE "%"#{demandname}"%"
         </if>
-        <if test="principal != null and principal != ''">
-            AND p.principal LIKE "%"#{principal}"%"
+        <if test="demandnamejq != null and demandnamejq != ''">
+            AND d.demand_name = #{demandnamejq}
         </if>
         ORDER BY d.addtime DESC
         <if test="pagingOrNot != null and pagingOrNot != ''">
             LIMIT #{startindex},#{pagesize};
         </if>
+    </select>
+
+    <select id="demandQueryListjq" resultType="Map" parameterType="Map">
+        SELECT
+        d.id as id,
+        d.project_id as projectid,
+        d.demand_name as demandname,
+        d.start_time as starttime,
+        d.end_time as endtime,
+        d.demand_content as demandcontent,
+        d.principal as principal,
+        d.addtime as addtime,
+        d.updtime as updtime
+        FROM
+        zs_demand d
+        WHERE d.demand_name = #{demandnamejq}
     </select>
 
     <select id="number" resultType="int">
@@ -46,4 +64,63 @@
         FROM
             zs_demand
     </select>
+
+    <insert id="adddemand" parameterType="Map">
+        INSERT INTO
+            zs_demand (
+            id
+            ,project_id
+            ,demand_name
+            ,start_time
+            ,end_time
+            ,demand_content
+            ,principal
+            ,addtime
+            ,updtime
+            ,operator
+            )
+		VALUES
+		    ( #{id}
+		    , #{projectid}
+		    ,#{demandname}
+		    ,#{starttime}
+		    ,#{endtime}
+		    ,#{demandcontent}
+		    ,#{principal}
+		    ,#{addTime}
+		    ,#{updTime}
+		    ,#{operator}
+		    );
+    </insert>
+
+    <update id="editdemand" parameterType="Map">
+        UPDATE zs_demand SET
+        demand_name=#{demandname}
+        <if test="projectid != null and projectid != ''">
+            ,project_id=#{projectid}
+        </if>
+        <if test="starttime != null and starttime != ''">
+            ,start_time=#{starttime}
+        </if>
+        <if test="endtime != null and endtime != ''">
+            ,end_time=#{endtime}
+        </if>
+        <if test="demandcontent != null and demandcontent != ''">
+            ,demand_content=#{demandcontent}
+        </if>
+        <if test="principal != null and principal != ''">
+            ,principal=#{principal}
+        </if>
+        <if test="updateTime != null and updateTime != ''">
+            ,updTime=#{updateTime}
+        </if>
+        <if test="operator != null and operator != ''">
+            ,operator=#{operator}
+        </if>
+        WHERE id= #{id};
+    </update>
+
+    <delete id="deldemand" parameterType="Map">
+        DELETE FROM zs_demand WHERE id = #{id}
+    </delete>
 </mapper>

@@ -58,4 +58,32 @@ public class ProjectController {
         log.info("web项目添加---------->传入的参数为：{}", requestData);
         return projectService.projectAdd(projectRequest);
     }
+
+    /**
+     * 项目修改.
+     *
+     * @return String字符串
+     */
+    @RequestMapping("/projectedit")
+    public String projectedit(@RequestBody String requestData) {
+
+        WebRequest<ProjectRequest> projectRequest = JSON.parseObject(requestData, new TypeReference<WebRequest<ProjectRequest>>() {
+        });
+        log.info("web项目修改---------->传入的参数为：{}", requestData);
+        return projectService.projectEdit(projectRequest);
+    }
+
+    /**
+     * 项目删除.
+     *
+     * @return String字符串
+     */
+    @RequestMapping("/projectdelete")
+    public String projectdelete(@RequestBody String requestData) {
+
+        WebRequest<ProjectRequest> projectRequest = JSON.parseObject(requestData, new TypeReference<WebRequest<ProjectRequest>>() {
+        });
+        log.info("web项目删除---------->传入的参数为：{}", requestData);
+        return projectService.projectDelete(projectRequest);
+    }
 }

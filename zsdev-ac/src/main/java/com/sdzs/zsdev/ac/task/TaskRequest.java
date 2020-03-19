@@ -1,4 +1,4 @@
-package com.sdzs.zsdev.ac.project;
+package com.sdzs.zsdev.ac.task;
 
 import java.util.List;
 
@@ -12,19 +12,19 @@ import java.util.List;
  * <p>
  * 更新履历： V0.0.1 2020/03/17 门海峰 创建.
  */
-public class ProjectRequest {
+public class TaskRequest {
 
     // uuid，主键
     private String id;
 
     // 机构id数组
-    private List<String> projectidlist;
+    private List<String> taskidlist;
 
-    // 项目id
-    private String projectid;
+    // 关联需求id
+    private String demandid;
 
-    // 项目名称
-    private String projectname;
+    // 任务名称
+    private String taskname;
 
     // 预计开始时间
     private String expectedsttime;
@@ -38,11 +38,17 @@ public class ProjectRequest {
     // 实际结束时间
     private String actualentime;
 
-    // 项目介绍
-    private String introduction;
+    // 实际结束时间
+    private String workhours;
 
-    // 项目负责人
+    // 任务介绍
+    private String taskcontent;
+
+    // 任务负责人
     private String principal;
+
+    // 任务进度
+    private String schedule;
 
     // 添加时间
     private String addtime;
@@ -52,6 +58,9 @@ public class ProjectRequest {
 
     // 操作人
     private String operator;
+
+    // 用户名称
+    private String username;
 
     // 当前页码，如果等于空，表示不分页
     private String currentpage;
@@ -65,14 +74,6 @@ public class ProjectRequest {
     // 请求次数
     private String draw;
 
-    public List<String> getProjectidlist() {
-        return projectidlist;
-    }
-
-    public void setProjectidlist(List<String> projectidlist) {
-        this.projectidlist = projectidlist;
-    }
-
     public String getId() {
         return id;
     }
@@ -81,12 +82,68 @@ public class ProjectRequest {
         this.id = id;
     }
 
-    public String getIntroduction() {
-        return introduction;
+    public List<String> getTaskidlist() {
+        return taskidlist;
     }
 
-    public void setIntroduction(String introduction) {
-        this.introduction = introduction;
+    public void setTaskidlist(List<String> taskidlist) {
+        this.taskidlist = taskidlist;
+    }
+
+    public String getDemandid() {
+        return demandid;
+    }
+
+    public void setDemandid(String demandid) {
+        this.demandid = demandid;
+    }
+
+    public String getTaskname() {
+        return taskname;
+    }
+
+    public void setTaskname(String taskname) {
+        this.taskname = taskname;
+    }
+
+    public String getExpectedsttime() {
+        return expectedsttime;
+    }
+
+    public void setExpectedsttime(String expectedsttime) {
+        this.expectedsttime = expectedsttime;
+    }
+
+    public String getExpectedentime() {
+        return expectedentime;
+    }
+
+    public void setExpectedentime(String expectedentime) {
+        this.expectedentime = expectedentime;
+    }
+
+    public String getActualsttime() {
+        return actualsttime;
+    }
+
+    public void setActualsttime(String actualsttime) {
+        this.actualsttime = actualsttime;
+    }
+
+    public String getActualentime() {
+        return actualentime;
+    }
+
+    public void setActualentime(String actualentime) {
+        this.actualentime = actualentime;
+    }
+
+    public String getTaskcontent() {
+        return taskcontent;
+    }
+
+    public void setTaskcontent(String taskcontent) {
+        this.taskcontent = taskcontent;
     }
 
     public String getPrincipal() {
@@ -95,6 +152,14 @@ public class ProjectRequest {
 
     public void setPrincipal(String principal) {
         this.principal = principal;
+    }
+
+    public String getSchedule() {
+        return schedule;
+    }
+
+    public void setSchedule(String schedule) {
+        this.schedule = schedule;
     }
 
     public String getAddtime() {
@@ -153,65 +218,35 @@ public class ProjectRequest {
         this.draw = draw;
     }
 
-    public String getProjectid() {
-        return projectid;
+    public String getWorkhours() {
+        return workhours;
     }
 
-    public void setProjectid(String projectid) {
-        this.projectid = projectid;
+    public void setWorkhours(String workhours) {
+        this.workhours = workhours;
     }
 
-    public String getProjectname() {
-        return projectname;
+    public String getUsername() {
+        return username;
     }
 
-    public void setProjectname(String projectname) {
-        this.projectname = projectname;
-    }
-
-    public String getExpectedsttime() {
-        return expectedsttime;
-    }
-
-    public void setExpectedsttime(String expectedsttime) {
-        this.expectedsttime = expectedsttime;
-    }
-
-    public String getExpectedentime() {
-        return expectedentime;
-    }
-
-    public void setExpectedentime(String expectedentime) {
-        this.expectedentime = expectedentime;
-    }
-
-    public String getActualsttime() {
-        return actualsttime;
-    }
-
-    public void setActualsttime(String actualsttime) {
-        this.actualsttime = actualsttime;
-    }
-
-    public String getActualentime() {
-        return actualentime;
-    }
-
-    public void setActualentime(String actualentime) {
-        this.actualentime = actualentime;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     @Override
     public String toString() {
-        return "ProjectRequest{" +
-                "projectid='" + projectid + '\'' +
-                ", projectname='" + projectname + '\'' +
+        return "TaskRequest{" +
+                "taskid='" + id + '\'' +
+                ", taskname='" + taskname + '\'' +
                 ", expectedsttime='" + expectedsttime + '\'' +
                 ", expectedentime='" + expectedentime + '\'' +
                 ", actualsttime='" + actualsttime + '\'' +
                 ", actualentime='" + actualentime + '\'' +
-                ", introduction='" + introduction + '\'' +
+                ", taskcontent='" + taskcontent + '\'' +
                 ", principal='" + principal + '\'' +
+                ", schedule='" + schedule + '\'' +
+                ", workhours='" + workhours + '\'' +
                 ", addtime='" + addtime + '\'' +
                 ", updtime='" + updtime + '\'' +
                 ", currentpage='" + currentpage + '\'' +

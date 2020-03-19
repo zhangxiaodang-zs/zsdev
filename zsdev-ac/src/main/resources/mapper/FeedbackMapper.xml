@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sdzs.zsdev.ac.feedback.FeedbackRepository">
+
+    <!--
+         Copyright(C) ShanDongYinFang 2019.
+         <p>
+         web端机构信息操作Mapper.
+         @author 门海峰 2020/03/17.
+         @version V0.0.1.
+         <p>
+         更新履历： V0.0.1 2020/03/17 门海峰 创建.
+       -->
+    <!-- 查询主机构信息列表. -->
+    <select id="feedbackQueryList" resultType="Map" parameterType="Map">
+        SELECT
+        f.id as id,
+        f.feedback_person_id as feedbackpersonid,
+        f.task_id as taskid,
+        u.uname as username,
+        f.feedback_content as feedbackcontent,
+        f.feedback_time as feedbacktime,
+        f.addtime as addtime,
+        f.updtime as updtime,
+        f.operator as operator,
+        f.feed_schedule as feedschedule,
+        f.working_hours as workinghours
+        FROM
+        zs_feedback f
+        left join turnin_user u on f.feedback_person_id=u.uid
+        WHERE
+        1 = 1
+        <if test="taskid != null and taskid != ''">
+            AND f.task_id = #{taskid}
+        </if>
+        ORDER BY f.addtime DESC
+    </select>
+
+    <select id="feedbackQueryListjq" resultType="Map" parameterType="Map">
+        SELECT
+        f.id as id,
+        f.feedback_person_id as feedbackpersonid,
+        u.uname as username,
+        f.task_id as taskid,
+        f.feedback_content as feedbackcontent,
+        f.feedback_time as feedbacktime,
+        f.addtime as addtime,
+        f.updtime as updtime,
+        f.operator as operator,
+        f.feed_schedule as feedschedule,
+        f.working_hours as workinghours
+        FROM
+        zs_feedback f
+        left join turnin_user u on f.feedback_person_id=u.uid
+        WHERE
+        1 = 1
+        <if test="taskid != null and taskid != ''">
+            AND f.task_id = #{taskid}
+        </if>
+        <if test="todaytime != null and todaytime != ''">
+            AND left(feedback_time, 8) = #{todaytime}
+        </if>
+        ORDER BY f.addtime
+        <if test="mark != null and mark != ''">
+            ,f.feed_schedule
+        </if>
+        DESC
+        <if test="mark != null and mark != ''">
+            LIMIT 0,1
+        </if>
+    </select>
+
+<!--    插入反馈-->
+    <insert id="addtaskFeedback" parameterType="Map">
+        INSERT INTO
+            zs_feedback (
+            id
+            ,feedback_person_id
+            ,task_id
+            ,feedback_content
+            ,feedback_time
+            ,addtime
+            ,updtime
+            ,operator
+            ,feed_schedule
+            ,working_hours
+            )
+		VALUES
+		    ( #{id}
+		    ,#{operator}
+		    ,#{taskid}
+		    ,#{feedbackcontent}
+		    ,#{feedbacktime}
+		    ,#{addTime}
+		    ,#{updTime}
+		    ,#{operator}
+		    ,#{feedschedule}
+		    ,#{workinghours}
+		    );
+    </insert>
+
+    <delete id="delfeedback" parameterType="Map">
+        DELETE FROM zs_feedback WHERE id = #{id}
+    </delete>
+
+    <update id="editfeedback" parameterType="Map">
+        UPDATE zs_feedback SET
+        feedback_content=#{feedbackcontent}
+        <if test="feedbacktime != null and feedbacktime != ''">
+            ,feedback_time=#{feedbacktime}
+        </if>
+        <if test="feedschedule != null and feedschedule != ''">
+            ,feed_schedule=#{feedschedule}
+        </if>
+        <if test="workinghours != null and workinghours != ''">
+            ,working_hours=#{workinghours}
+        </if>
+        <if test="operator != null and operator != ''">
+            ,feedback_person_id=#{operator}
+        </if>
+        <if test="updateTime != null and updateTime != ''">
+            ,updtime=#{updateTime}
+        </if>
+        <if test="operator != null and operator != ''">
+            ,operator=#{operator}
+        </if>
+        WHERE id= #{id};
+    </update>
+
+    <select id="number" resultType="int">
+        SELECT
+            count( 1 )
+        FROM
+            zs_feedback
+    </select>
+</mapper>

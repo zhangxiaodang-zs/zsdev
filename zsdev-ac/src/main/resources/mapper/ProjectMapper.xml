@@ -25,20 +25,61 @@
         p.introduction as introduction,
         p.principal as principal,
         p.addtime as addtime,
+        u.uname as username,
+        <if test="todaytime != null and todaytime != ''">
+            SUBSTRING(p.project_id,-3) as projectnumber,
+        </if>
         p.updtime as updtime
         FROM
         zs_project p
+        left join turnin_user u on p.principal=u.uid
         WHERE
         1 = 1
         <if test="projectname != null and projectname != ''">
             AND p.project_name LIKE "%"#{projectname}"%"
         </if>
+        <if test="todaytime != null and todaytime != ''">
+            AND p.project_id LIKE "%"#{todaytime}"%"
+        </if>
         <if test="principal != null and principal != ''">
             AND p.principal LIKE "%"#{principal}"%"
         </if>
-        ORDER BY p.addtime DESC
+        <if test="projectid != null and projectid != ''">
+            AND p.project_id = #{projectid}
+        </if>
+        <if test="todaytime == null or todaytime == ''">
+            ORDER BY p.addtime DESC
+        </if>
+        <if test="todaytime != null and todaytime != ''">
+            ORDER BY SUBSTRING( p.project_id,- 3 ) DESC limit 1
+        </if>
+
         <if test="pagingOrNot != null and pagingOrNot != ''">
             LIMIT #{startindex},#{pagesize};
+        </if>
+    </select>
+
+    <select id="projectQueryListjq" resultType="Map" parameterType="Map">
+        SELECT
+        p.id as id,
+        p.project_id as projectid,
+        p.project_name as projectname,
+        p.expected_st_time as expectedsttime,
+        p.expected_en_time as expectedentime,
+        p.actual_st_time as actualsttime,
+        p.actual_en_time as actualentime,
+        p.introduction as introduction,
+        p.principal as principal,
+        p.addtime as addtime,
+        <if test="todaytime != null and todaytime != ''">
+            MAX(SUBSTRING(p.project_id,-3)) as projectnumber,
+        </if>
+        p.updtime as updtime
+        FROM
+        zs_project p
+        WHERE p.project_name = #{projectnamejq}
+        <if test="projectid != null and projectid != ''">
+            AND p.project_id = #{projectid}
         </if>
     </select>
 
@@ -48,4 +89,70 @@
         FROM
             zs_project
     </select>
+
+    <insert id="addproject" parameterType="Map">
+        INSERT INTO
+            zs_project (
+            id
+            ,project_id
+            ,project_name
+            ,expected_st_time
+            ,expected_en_time
+            ,actual_st_time
+            ,actual_en_time
+            ,introduction
+            ,principal
+            ,addtime
+            ,updtime
+            ,operator
+            )
+		VALUES
+		    ( #{id}
+		    , #{projectid}
+		    ,#{projectname}
+		    ,#{expectedsttime}
+		    ,#{expectedentime}
+		    ,#{actualsttime}
+		    ,#{actualentime}
+		    ,#{introduction}
+		    ,#{principal}
+		    ,#{addTime}
+		    ,#{updTime}
+		    ,#{operator}
+		    );
+    </insert>
+
+    <update id="editproject" parameterType="Map">
+        UPDATE zs_project SET
+            project_name=#{projectname}
+        <if test="expectedsttime != null and expectedsttime != ''">
+            ,expected_st_time=#{expectedsttime}
+        </if>
+        <if test="expectedentime != null and expectedentime != ''">
+            ,expected_en_time=#{expectedentime}
+        </if>
+        <if test="actualsttime != null and actualsttime != ''">
+            ,actual_st_time=#{actualsttime}
+        </if>
+        <if test="actualentime != null and actualentime != ''">
+            ,actual_en_time=#{actualentime}
+        </if>
+        <if test="introduction != null and introduction != ''">
+            ,introduction=#{introduction}
+        </if>
+        <if test="principal != null and principal != ''">
+            ,principal=#{principal}
+        </if>
+        <if test="updateTime != null and updateTime != ''">
+            ,updTime=#{updateTime}
+        </if>
+        <if test="operator != null and operator != ''">
+            ,operator=#{operator}
+        </if>
+        WHERE id= #{id};
+    </update>
+
+    <delete id="delproject" parameterType="Map">
+        DELETE FROM zs_project WHERE id = #{id}
+    </delete>
 </mapper>

@@ -1,5 +1,7 @@
 package com.sdzs.zsdev.ac.demand;
 
+import java.util.List;
+
 /**
  * Copyright(C) ShanDongYinFang 2019.
  * <p>
@@ -14,6 +16,8 @@ public class DemandRequest {
 
     // 需求id
     private String id;
+    // id数组
+    private List<String> demandidlist;
 
     // 关联项目id
     private String projectid;
@@ -50,6 +54,14 @@ public class DemandRequest {
 
     // 请求次数
     private String draw;
+
+    public List<String> getDemandidlist() {
+        return demandidlist;
+    }
+
+    public void setDemandidlist(List<String> demandidlist) {
+        this.demandidlist = demandidlist;
+    }
 
     public String getId() {
         return id;

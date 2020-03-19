@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sdzs.zsdev.ac.task.TaskRepository">
+
+    <!--
+         Copyright(C) ShanDongYinFang 2019.
+         <p>
+         web端机构信息操作Mapper.
+         @author 门海峰 2020/03/17.
+         @version V0.0.1.
+         <p>
+         更新履历： V0.0.1 2020/03/17 门海峰 创建.
+       -->
+    <!-- 查询主机构信息列表. -->
+    <select id="taskQueryList" resultType="Map" parameterType="Map">
+        SELECT
+        t.id as id,
+        t.demand_id as demandid,
+        t.task_name as taskname,
+        t.expected_st_time as expectedsttime,
+        t.expected_en_time as expectedentime,
+        t.actual_st_time as actualsttime,
+        t.actual_en_time as actualentime,
+        t.task_content as taskcontent,
+        t.principal as principal,
+        t.work_hours as workhours,
+        t.schedule as schedule,
+        t.addtime as addtime,
+        u.uname as username,
+        t.updtime as updtime
+        FROM
+        zs_task t
+        left join turnin_user u on t.principal=u.uid
+        WHERE
+        1 = 1
+        <if test="taskname != null and taskname != ''">
+            AND t.task_name LIKE "%"#{taskname}"%"
+        </if>
+        <if test="principal != null and principal != ''">
+            AND t.principal LIKE "%"#{principal}"%"
+        </if>
+        <if test="demandid != null and demandid != ''">
+            AND t.demand_id = #{demandid}
+        </if>
+        ORDER BY t.addtime DESC
+        <if test="pagingOrNot != null and pagingOrNot != ''">
+            LIMIT #{startindex},#{pagesize};
+        </if>
+    </select>
+
+    <select id="taskQueryListjq" resultType="Map" parameterType="Map">
+        SELECT
+        t.id as id,
+        t.demand_id as demandid,
+        t.task_name as taskname,
+        t.expected_st_time as expectedsttime,
+        t.expected_en_time as expectedentime,
+        t.actual_st_time as actualsttime,
+        t.actual_en_time as actualentime,
+        t.task_content as taskcontent,
+        t.principal as principal,
+        t.schedule as schedule,
+        t.work_hours as workhours,
+        t.addtime as addtime,
+        t.updtime as updtime
+        FROM
+        zs_task t
+        WHERE t.task_name = #{tasknamejq}
+        <if test="taskid != null and taskid != ''">
+            AND t.task_id = #{taskid}
+        </if>
+    </select>
+
+    <select id="number" resultType="int">
+        SELECT
+            count( 1 )
+        FROM
+            zs_task
+    </select>
+
+    <insert id="addtask" parameterType="Map">
+        INSERT INTO
+            zs_task (
+            id
+            ,demand_id
+            ,task_name
+            ,expected_st_time
+            ,expected_en_time
+            ,actual_st_time
+            ,actual_en_time
+            ,task_content
+            ,principal
+            ,schedule
+            ,addtime
+            ,updtime
+            ,operator
+            )
+		VALUES
+		    ( #{id}
+		    , #{demandid}
+		    ,#{taskname}
+		    ,#{expectedsttime}
+		    ,#{expectedentime}
+		    ,#{actualsttime}
+		    ,#{actualentime}
+		    ,#{taskcontent}
+		    ,#{principal}
+		    ,#{schedule}
+		    ,#{addTime}
+		    ,#{updTime}
+		    ,#{operator}
+		    );
+    </insert>
+
+    <update id="edittask" parameterType="Map">
+        UPDATE zs_task SET updTime=#{updateTime}
+        <if test="taskname != null and taskname != ''">
+            ,task_name=#{taskname}
+        </if>
+        <if test="expectedsttime != null and expectedsttime != ''">
+            ,expected_st_time=#{expectedsttime}
+        </if>
+        <if test="expectedentime != null and expectedentime != ''">
+            ,expected_en_time=#{expectedentime}
+        </if>
+        <if test="actualsttime != null and actualsttime != ''">
+            ,actual_st_time=#{actualsttime}
+        </if>
+        <if test="actualentime != null and actualentime != ''">
+            ,actual_en_time=#{actualentime}
+        </if>
+        <if test="taskcontent != null and taskcontent != ''">
+            ,task_content=#{taskcontent}
+        </if>
+        <if test="principal != null and principal != ''">
+            ,principal=#{principal}
+        </if>
+        <if test="schedule != null and schedule != ''">
+            ,schedule=#{schedule}
+        </if>
+        <if test="workhours != null and workhours != ''">
+            ,work_hours=#{workhours}
+        </if>
+        <if test="operator != null and operator != ''">
+            ,operator=#{operator}
+        </if>
+        WHERE id= #{id};
+    </update>
+
+    <delete id="deltask" parameterType="Map">
+        DELETE FROM zs_task WHERE id = #{id}
+    </delete>
+
+</mapper>

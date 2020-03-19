@@ -1,6 +1,4 @@
-package com.sdzs.zsdev.ac.project;
-
-import java.util.List;
+package com.sdzs.zsdev.ac.task;
 
 /**
  * Copyright(C) ShanDongYinFang 2019.
@@ -12,7 +10,7 @@ import java.util.List;
  * <p>
  * 更新履历： V0.0.1 2020/03/17 门海峰 创建.
  */
-public class ProjectResponse {
+public class TaskResponse {
 
     // 请求次数
     private String draw;
@@ -21,7 +19,7 @@ public class ProjectResponse {
     private String totalcount;
 
     //返回角色信息集合
-    private Object projectlist;
+    private Object tasklist;
 
     public String getDraw() {
         return draw;
@@ -39,22 +37,25 @@ public class ProjectResponse {
         this.totalcount = totalcount;
     }
 
-    public Object getProjectlist() {
-        return projectlist;
+    public Object getTasklist() {
+        return tasklist;
     }
 
-    public void setProjectlist(Object projectlist) {
-        this.projectlist = projectlist;
+    public void setTasklist(Object tasklist) {
+        this.tasklist = tasklist;
     }
 
     // 主机构树
     public static class ProjectTree{
 
-        // 项目id
-        private String projectid;
+        // 任务id
+        private String id;
 
-        // 项目名称
-        private String projectname;
+        // 关联需求id
+        private String demandid;
+
+        // 任务名称
+        private String taskname;
 
         // 预计开始时间
         private String expectedsttime;
@@ -68,14 +69,20 @@ public class ProjectResponse {
         // 实际结束时间
         private String actualentime;
 
-        // 项目介绍
-        private String introduction;
-
-        // 项目负责人
-        private String principal;
+        // 任务介绍
+        private String taskcontent;
 
         // 用户名称
         private String username;
+
+        // 工时
+        private String workhours;
+
+        // 任务负责人
+        private String principal;
+
+        // 任务进度
+        private String schedule;
 
         // 添加时间
         private String addtime;
@@ -84,30 +91,30 @@ public class ProjectResponse {
         private String updtime;
 
         //返回集合
-        private Object projectlist;
+        private Object tasklist;
 
-        public Object getProjectlist() {
-            return projectlist;
+        public String getId() {
+            return id;
         }
 
-        public void setProjectlist(Object projectlist) {
-            this.projectlist = projectlist;
+        public void setId(String id) {
+            this.id = id;
         }
 
-        public String getProjectid() {
-            return projectid;
+        public String getDemandid() {
+            return demandid;
         }
 
-        public void setProjectid(String projectid) {
-            this.projectid = projectid;
+        public void setDemandid(String demandid) {
+            this.demandid = demandid;
         }
 
-        public String getProjectname() {
-            return projectname;
+        public String getTaskname() {
+            return taskname;
         }
 
-        public void setProjectname(String projectname) {
-            this.projectname = projectname;
+        public void setTaskname(String taskname) {
+            this.taskname = taskname;
         }
 
         public String getExpectedsttime() {
@@ -142,12 +149,12 @@ public class ProjectResponse {
             this.actualentime = actualentime;
         }
 
-        public String getIntroduction() {
-            return introduction;
+        public String getTaskcontent() {
+            return taskcontent;
         }
 
-        public void setIntroduction(String introduction) {
-            this.introduction = introduction;
+        public void setTaskcontent(String taskcontent) {
+            this.taskcontent = taskcontent;
         }
 
         public String getPrincipal() {
@@ -156,6 +163,14 @@ public class ProjectResponse {
 
         public void setPrincipal(String principal) {
             this.principal = principal;
+        }
+
+        public String getSchedule() {
+            return schedule;
+        }
+
+        public void setSchedule(String schedule) {
+            this.schedule = schedule;
         }
 
         public String getAddtime() {
@@ -174,6 +189,22 @@ public class ProjectResponse {
             this.updtime = updtime;
         }
 
+        public Object getTasklist() {
+            return tasklist;
+        }
+
+        public void setTasklist(Object tasklist) {
+            this.tasklist = tasklist;
+        }
+
+        public String getWorkhours() {
+            return workhours;
+        }
+
+        public void setWorkhours(String workhours) {
+            this.workhours = workhours;
+        }
+
         public String getUsername() {
             return username;
         }
@@ -184,16 +215,18 @@ public class ProjectResponse {
 
         @Override
         public String toString() {
-            return "ProjectListResponse{" +
-                    "projectid='" + projectid + '\'' +
-                    ", projectname='" + projectname + '\'' +
+            return "TaskListResponse{" +
+                    "taskid='" + id + '\'' +
+                    ", taskname='" + taskname + '\'' +
                     ", expectedsttime='" + expectedsttime + '\'' +
                     ", expectedentime='" + expectedentime + '\'' +
                     ", actualsttime='" + actualsttime + '\'' +
                     ", actualentime='" + actualentime + '\'' +
-                    ", introduction='" + introduction + '\'' +
-                    ", username='" + username + '\'' +
+                    ", taskcontent='" + taskcontent + '\'' +
+                    ", workhours='" + workhours + '\'' +
                     ", principal='" + principal + '\'' +
+                    ", username='" + username + '\'' +
+                    ", schedule='" + schedule + '\'' +
                     ", addtime='" + addtime + '\'' +
                     ", updtime='" + updtime + '\'' +
                     '}';
@@ -202,10 +235,10 @@ public class ProjectResponse {
 
     @Override
     public String toString() {
-        return "ProjectResponse{" +
+        return "TaskResponse{" +
                 "draw='" + draw + '\'' +
                 ", totalcount='" + totalcount + '\'' +
-                ", projectlist=" + projectlist +
+                ", tasklist=" + tasklist +
                 '}';
     }
 }

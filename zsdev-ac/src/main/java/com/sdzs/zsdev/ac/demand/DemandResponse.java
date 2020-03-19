@@ -57,6 +57,9 @@ public class DemandResponse {
         // 需求名称
         private String demandname;
 
+        // 用户名称
+        private String username;
+
         // 开始时间
         private String starttime;
 
@@ -158,6 +161,14 @@ public class DemandResponse {
             this.demandlist = demandlist;
         }
 
+        public String getUsername() {
+            return username;
+        }
+
+        public void setUsername(String username) {
+            this.username = username;
+        }
+
         @Override
         public String toString() {
             return "DemandListResponse{" +
@@ -168,6 +179,7 @@ public class DemandResponse {
                     ", endtime='" + endtime + '\'' +
                     ", demandcontent='" + demandcontent + '\'' +
                     ", principal='" + principal + '\'' +
+                    ", username='" + username + '\'' +
                     ", addtime='" + addtime + '\'' +
                     ", updtime='" + updtime + '\'' +
                     '}';
