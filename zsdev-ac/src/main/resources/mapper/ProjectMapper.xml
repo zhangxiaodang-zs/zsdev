@@ -42,7 +42,7 @@
             AND p.project_id LIKE "%"#{todaytime}"%"
         </if>
         <if test="principal != null and principal != ''">
-            AND p.principal LIKE "%"#{principal}"%"
+            AND p.principal = #{principal}
         </if>
         <if test="projectid != null and projectid != ''">
             AND p.project_id = #{projectid}
