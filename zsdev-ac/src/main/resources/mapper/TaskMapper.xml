@@ -120,6 +120,9 @@
         <if test="taskname != null and taskname != ''">
             ,task_name=#{taskname}
         </if>
+        <if test="demandid != null and demandid != ''">
+            ,demand_id=#{demandid}
+        </if>
         <if test="expectedsttime != null and expectedsttime != ''">
             ,expected_st_time=#{expectedsttime}
         </if>
