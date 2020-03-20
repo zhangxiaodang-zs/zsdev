@@ -22,7 +22,7 @@
         d.end_time as endtime,
         d.demand_content as demandcontent,
         d.principal as principal,
-        u.uname as username,
+        ifnull(u.uname, '　') as username,
         d.addtime as addtime,
         d.updtime as updtime,
         p.project_name as projectname

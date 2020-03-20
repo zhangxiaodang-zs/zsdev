@@ -25,7 +25,7 @@
         p.introduction as introduction,
         p.principal as principal,
         p.addtime as addtime,
-        u.uname as username,
+        ifnull(u.uname, '　') as username,
         <if test="todaytime != null and todaytime != ''">
             SUBSTRING(p.project_id,-3) as projectnumber,
         </if>

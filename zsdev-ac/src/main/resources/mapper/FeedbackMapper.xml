@@ -18,7 +18,7 @@
         f.id as id,
         f.feedback_person_id as feedbackpersonid,
         f.task_id as taskid,
-        u.uname as username,
+        ifnull(u.uname, '　') as username,
         f.feedback_content as feedbackcontent,
         f.feedback_time as feedbacktime,
         f.addtime as addtime,

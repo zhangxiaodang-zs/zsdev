@@ -27,7 +27,7 @@
         t.work_hours as workhours,
         t.schedule as schedule,
         t.addtime as addtime,
-        u.uname as username,
+        ifnull(u.uname, '　') as username,
         t.updtime as updtime,
         d.demand_name as demandname
         FROM
