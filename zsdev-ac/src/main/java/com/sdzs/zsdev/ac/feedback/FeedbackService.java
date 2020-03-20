@@ -97,10 +97,12 @@ public class FeedbackService {
                 map1.put("taskid",requestData.getRequest().getTaskid());
                 List<Map<String, Object>> results = feedbackRepository.feedbackQueryListjq(map1);
                 int gs = 0;
+                float gss = 0f;
                 for(int i=0;i<results.size();i++){
-                    gs += Integer.parseInt(results.get(i).get("workinghours").toString());
+//                    gs += Integer.parseInt(results.get(i).get("workinghours").toString());
+                    gss += Float.parseFloat(results.get(i).get("workinghours").toString());
                 }
-                map1.put("workhours",gs);
+                map1.put("workhours",gss);
                 map1.put("id",requestData.getRequest().getTaskid());
                 map1.put("updateTime", DateTimeUtil.getTimeformat());
                 map1.put("operator",  requestData.getUserid());
@@ -134,18 +136,9 @@ public class FeedbackService {
         HashMap map = SdyfJsonUtil.beanToMap(requestData.getRequest());
         map.put("updateTime", DateTimeUtil.getTimeformat());
         map.put("operator", requestData.getUserid());
-        //check反馈内容不为空
-        if(requestData.getRequest().getFeedbackcontent().equals("") || null == requestData.getRequest().getFeedbackcontent()){
-            return new SysErrResponse( "反馈内容不能为空").toJsonString();
-        }else if(requestData.getRequest().getFeedschedule().equals("") || null == requestData.getRequest().getFeedschedule()){
-            return new SysErrResponse( "反馈进度不能为空").toJsonString();
-        }else if(requestData.getRequest().getWorkinghours().equals("") || null == requestData.getRequest().getWorkinghours()){
-            return new SysErrResponse( "反馈工时不能为空").toJsonString();
-        }else{
-            int feedresult = feedbackRepository.editfeedback(map);
-            if(feedresult <= 0){
-                return new SysErrResponse( "操作失败").toJsonString();
-            }
+        int feedresult = feedbackRepository.editfeedback(map);
+        if(feedresult <= 0){
+            return new SysErrResponse( "操作失败 请确认该任务是否存在或联系管理员").toJsonString();
         }
         return new SysResponse().toJsonString();
     }

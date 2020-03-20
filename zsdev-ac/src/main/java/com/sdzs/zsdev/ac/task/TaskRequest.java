@@ -62,6 +62,9 @@ public class TaskRequest {
     // 用户名称
     private String username;
 
+    // 关联需求名称
+    private String demandname;
+
     // 当前页码，如果等于空，表示不分页
     private String currentpage;
 
@@ -234,11 +237,20 @@ public class TaskRequest {
         this.username = username;
     }
 
+    public String getDemandname() {
+        return demandname;
+    }
+
+    public void setDemandname(String demandname) {
+        this.demandname = demandname;
+    }
+
     @Override
     public String toString() {
         return "TaskRequest{" +
                 "taskid='" + id + '\'' +
                 ", taskname='" + taskname + '\'' +
+                ", demandname='" + demandname + '\'' +
                 ", expectedsttime='" + expectedsttime + '\'' +
                 ", expectedentime='" + expectedentime + '\'' +
                 ", actualsttime='" + actualsttime + '\'' +

@@ -33,7 +33,7 @@ public class DemandController {
     /**
      * 查询一览.
      */
-    @RequestMapping("demandquery")
+    @RequestMapping("/demandquery")
     public String query(@RequestBody String requestData) {
         log.info("查询需求一览开始..................");
 

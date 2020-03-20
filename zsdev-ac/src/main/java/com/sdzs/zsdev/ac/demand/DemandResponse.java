@@ -78,6 +78,9 @@ public class DemandResponse {
         // 更新时间
         private String updtime;
 
+        // 项目名称
+        private String projectname;
+
         //返回集合
         private Object demandlist;
 
@@ -169,11 +172,20 @@ public class DemandResponse {
             this.username = username;
         }
 
+        public String getProjectname() {
+            return projectname;
+        }
+
+        public void setProjectname(String projectname) {
+            this.projectname = projectname;
+        }
+
         @Override
         public String toString() {
             return "DemandListResponse{" +
                     "id='" + id + '\'' +
                     ", projectid='" + projectid + '\'' +
+                    ", projectid='" + projectname + '\'' +
                     ", demandname='" + demandname + '\'' +
                     ", starttime='" + starttime + '\'' +
                     ", endtime='" + endtime + '\'' +

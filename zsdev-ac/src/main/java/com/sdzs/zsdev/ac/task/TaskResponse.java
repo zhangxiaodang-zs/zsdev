@@ -90,6 +90,9 @@ public class TaskResponse {
         // 更新时间
         private String updtime;
 
+        // 关联需求名称
+        private String demandname;
+
         //返回集合
         private Object tasklist;
 
@@ -213,11 +216,20 @@ public class TaskResponse {
             this.username = username;
         }
 
+        public String getDemandname() {
+            return demandname;
+        }
+
+        public void setDemandname(String demandname) {
+            this.demandname = demandname;
+        }
+
         @Override
         public String toString() {
             return "TaskListResponse{" +
                     "taskid='" + id + '\'' +
                     ", taskname='" + taskname + '\'' +
+                    ", demandname='" + demandname + '\'' +
                     ", expectedsttime='" + expectedsttime + '\'' +
                     ", expectedentime='" + expectedentime + '\'' +
                     ", actualsttime='" + actualsttime + '\'' +

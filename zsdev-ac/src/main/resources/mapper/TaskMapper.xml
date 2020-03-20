@@ -28,10 +28,12 @@
         t.schedule as schedule,
         t.addtime as addtime,
         u.uname as username,
-        t.updtime as updtime
+        t.updtime as updtime,
+        d.demand_name as demandname
         FROM
         zs_task t
         left join turnin_user u on t.principal=u.uid
+        left join zs_demand d on t.demand_id=d.id
         WHERE
         1 = 1
         <if test="taskname != null and taskname != ''">

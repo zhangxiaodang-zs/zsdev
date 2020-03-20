@@ -43,6 +43,9 @@ public class DemandRequest {
     // 更新时间
     private String updtime;
 
+    // 项目名称
+    private String projectname;
+
     // 当前页码，如果等于空，表示不分页
     private String currentpage;
 
@@ -167,6 +170,14 @@ public class DemandRequest {
         this.draw = draw;
     }
 
+    public String getProjectname() {
+        return projectname;
+    }
+
+    public void setProjectname(String projectname) {
+        this.projectname = projectname;
+    }
+
     @Override
     public String toString() {
         return "DemandRequest{" +
@@ -177,6 +188,7 @@ public class DemandRequest {
                 ", endtime='" + endtime + '\'' +
                 ", demandcontent='" + demandcontent + '\'' +
                 ", principal='" + principal + '\'' +
+                ", projectname='" + projectname + '\'' +
                 ", addtime='" + addtime + '\'' +
                 ", updtime='" + updtime + '\'' +
                 ", currentpage='" + currentpage + '\'' +
