@@ -27,6 +27,7 @@ public interface ProjectRepository {
      *  @return 项目列表.
      */
     List<Map<String, Object>> projectQueryList(HashMap map);
+    List<Map<String, Object>> queryFileList(HashMap map);
     List<Map<String, Object>> projectQueryListjq(HashMap map);
 
     /**
@@ -55,4 +56,19 @@ public interface ProjectRepository {
      * @param map 项目信息删除.
      */
     int delproject(Map<String, String> param);
+
+    /**
+     * 附件添加.
+     *
+     * @param map 添加信息.
+     * @return
+     */
+    int addannex(Map<String, String> map);
+
+    /**
+     * 附件删除.
+     *
+     * @param map 项目信息删除.
+     */
+    int delfile(Map<String, String> param);
 }

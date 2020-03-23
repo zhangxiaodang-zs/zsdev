@@ -113,6 +113,27 @@ public class ProjectService {
             map.put("updTime", DateTimeUtil.getTimeformat());
             map.put("operator", requestData.getUserid());
             int addproject = projectRepository.addproject(map);
+            if(addproject<=0){
+                return new SysErrResponse("添加项目失败！").toJsonString();
+            }
+            int result=0;
+            for (String advertId : requestData.getRequest().getProjectUpload()) {
+                ProjectRequest projectRequest = JSON.parseObject(advertId, new TypeReference<ProjectRequest>() {
+                });
+                Map<String, String> param = new HashMap<>();
+                param.put("fileid", projectRequest.getFileid());
+                param.put("filename", projectRequest.getFilename());
+                param.put("filepath", projectRequest.getFilepath());
+                param.put("glid", projectnumber);
+                param.put("filemark", "1");
+                param.put("addTime", DateTimeUtil.getTimeformat());
+                param.put("updTime", DateTimeUtil.getTimeformat());
+                param.put("operator", requestData.getUserid());
+                result = this.projectRepository.addannex(param);
+                if (result <= 0) {
+                    return new SysErrResponse("文件:"+projectRequest.getFilename()+" 插入失败，请重新操作！").toJsonString();
+                }
+            }
         }
         return new SysResponse().toJsonString();
     }
@@ -176,6 +197,25 @@ public class ProjectService {
         }
         return new SysResponse().toJsonString();
     }
+
+    /**
+     * 附件删除接口实现.
+     *
+     * @return Json字符串数据
+     */
+    @Transactional(rollbackFor = {Exception.class, RuntimeException.class})
+    @JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"})
+    public String uploadDelete(WebRequest<UploadRequest> requestData) {
+        //批量删除  通过，分割  循环
+        int result = 0;
+        Map<String, String> param = new HashMap<>();
+        param.put("id", requestData.getRequest().getFileid());
+        result = this.projectRepository.delfile(param);
+        if (result <= 0) {
+            return new SysErrResponse("id:"+requestData.getRequest().getFileid()+" 删除失败，请重新操作！").toJsonString();
+        }
+        return new SysResponse().toJsonString();
+    }
     
     //补位
     public static String frontCompWithZore(int formatLength,int formatNumber){
@@ -188,5 +228,24 @@ public class ProjectService {
         String newString = String.format("%0"+formatLength+"d", formatNumber);
         return newString;
     }
-    
+
+    /**
+     * 附件查询接口实现.
+     *
+     * @return Json字符串数据
+     */
+    public String fileQuery(WebRequest<ProjectRequest> requestData) {
+        HashMap map = SdyfJsonUtil.beanToMap("");
+        map.put("glid",requestData.getRequest().getProjectid());
+        //查询项目下附件
+        List<Map<String, Object>> fileData = projectRepository.queryFileList(map);
+        //创建接收对象
+        WebResponse<UploadResponse> web = new WebResponse<>();
+        UploadResponse uploadResponse = new UploadResponse();
+
+        uploadResponse.setProjectUpload(fileData);
+        web.setResponse(uploadResponse);
+        return JSONObject.toJSON(web).toString();
+    }
+
 }

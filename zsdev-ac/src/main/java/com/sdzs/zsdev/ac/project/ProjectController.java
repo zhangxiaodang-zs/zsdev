@@ -4,6 +4,9 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.sdzs.zsdev.core.request.WebRequest;
+import com.sdzs.zsdev.core.response.SysResponse;
+import com.sdzs.zsdev.core.response.WebResponse;
+import com.sdzs.zsdev.core.utils.CommonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -89,6 +92,7 @@ public class ProjectController {
         log.info("web项目删除---------->传入的参数为：{}", requestData);
         return projectService.projectDelete(projectRequest);
     }
+
     /**
      * 文件上传
      *
@@ -99,19 +103,57 @@ public class ProjectController {
         response.setCharacterEncoding("utf-8");
         String msg = "添加成功";
         log.info("-------------------开始调用上传文件upload接口-------------------");
+
+        //创建接收对象
+        WebResponse<UploadResponse> web = new WebResponse<>();
+        UploadResponse uploadResponse = new UploadResponse();
         try{
-            String path = "D:/"+new Date().getTime()+ "/" + files.getOriginalFilename();
+            String path = "D:/wjjs/"+new Date().getTime()+ "/" + files.getOriginalFilename();
             File fileDir = new File(path);
             if (!fileDir.exists()) { //如果不存在 则创建
                 fileDir.mkdirs();
             }
             files.transferTo(fileDir);
+
+            uploadResponse.setFilename(files.getOriginalFilename());
+            uploadResponse.setFilepath(path);
+            uploadResponse.setFileid(CommonUtil.getUUid());
+            uploadResponse.setMsg("上传成功");
+            web.setResponse(uploadResponse);
+
         }catch(Exception e){
-            msg="添加失败";
+            uploadResponse.setMsg("上传失败");
+            web.setResponse(uploadResponse);
         }
         log.info("-------------------结束调用上传文件upload接口-------------------");
-        json.put("msg", msg);
-        return msg;
+        return JSONObject.toJSON(web).toString();
     }
 
+    /**
+     * 附件删除.
+     *
+     * @return String字符串
+     */
+    @RequestMapping("/filedelete")
+    public String filedelete(@RequestBody String requestData) {
+
+        WebRequest<UploadRequest> uploadRequest = JSON.parseObject(requestData, new TypeReference<WebRequest<UploadRequest>>() {
+        });
+        log.info("附件删除---------->传入的参数为：{}", requestData);
+        return projectService.uploadDelete(uploadRequest);
+    }
+
+    /**
+     * 项目查询.
+     *
+     * @return String字符串
+     */
+    @RequestMapping("/filequery")
+    public String filequery(@RequestBody String requestData) {
+
+        WebRequest<ProjectRequest> projectRequest = JSON.parseObject(requestData, new TypeReference<WebRequest<ProjectRequest>>() {
+        });
+        log.info("web项目查询---------->传入的参数为：{}", requestData);
+        return projectService.fileQuery(projectRequest);
+    }
 }

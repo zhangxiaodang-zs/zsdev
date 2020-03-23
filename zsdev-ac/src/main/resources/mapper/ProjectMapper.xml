@@ -155,4 +155,48 @@
     <delete id="delproject" parameterType="Map">
         DELETE FROM zs_project WHERE id = #{id}
     </delete>
+
+    <insert id="addannex" parameterType="Map">
+        INSERT INTO
+            zs_annex (
+            id
+            ,annex_name
+            ,annex_path
+            ,annex_mark
+            ,addtime
+            ,updtime
+            ,operator
+            ,glid
+            )
+		VALUES
+		    ( #{fileid}
+		    , #{filename}
+		    ,#{filepath}
+		    ,#{filemark}
+		    ,#{addTime}
+		    ,#{updTime}
+		    ,#{operator}
+		    ,#{glid}
+		    );
+    </insert>
+
+    <delete id="delfile" parameterType="Map">
+        DELETE FROM zs_annex WHERE id = #{id}
+    </delete>
+
+    <select id="queryFileList" resultType="Map" parameterType="Map">
+        SELECT
+        a.id as id,
+        a.annex_name,
+        a.annex_path,
+        a.annex_mark
+        FROM
+        zs_annex a
+        WHERE
+        1 = 1
+        <if test="glid != null and glid != ''">
+            AND a.glid = #{glid}
+        </if>
+        order by a.addtime desc
+    </select>
 </mapper>
