@@ -1,16 +1,19 @@
 package com.sdzs.zsdev.ac.project;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
-import com.sdzs.zsdev.ac.organ.OrganRequest;
-import com.sdzs.zsdev.ac.organ.OrganService;
 import com.sdzs.zsdev.core.request.WebRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.IOException;
+import java.util.Date;
 
 /**
  * Copyright(C) ShanDongYinFang 2019.
@@ -86,4 +89,29 @@ public class ProjectController {
         log.info("web项目删除---------->传入的参数为：{}", requestData);
         return projectService.projectDelete(projectRequest);
     }
+    /**
+     * 文件上传
+     *
+     * */
+    @RequestMapping(value = "/upload", method = RequestMethod.POST)
+    public String upload(@RequestParam("file")MultipartFile files,HttpServletRequest request, HttpServletResponse response) throws IOException {
+        JSONObject json=new JSONObject();
+        response.setCharacterEncoding("utf-8");
+        String msg = "添加成功";
+        log.info("-------------------开始调用上传文件upload接口-------------------");
+        try{
+            String path = "D:/"+new Date().getTime()+ "/" + files.getOriginalFilename();
+            File fileDir = new File(path);
+            if (!fileDir.exists()) { //如果不存在 则创建
+                fileDir.mkdirs();
+            }
+            files.transferTo(fileDir);
+        }catch(Exception e){
+            msg="添加失败";
+        }
+        log.info("-------------------结束调用上传文件upload接口-------------------");
+        json.put("msg", msg);
+        return msg;
+    }
+
 }
