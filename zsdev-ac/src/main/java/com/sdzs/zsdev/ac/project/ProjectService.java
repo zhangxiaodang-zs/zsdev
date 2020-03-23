@@ -125,7 +125,7 @@ public class ProjectService {
                 param.put("fileid", projectRequest.getFileid());
                 param.put("filename", projectRequest.getFilename());
                 param.put("filepath", projectRequest.getFilepath());
-                param.put("glid", uuid);
+                param.put("glid", projectnumber);
                 param.put("filemark", "1");
                 param.put("addTime", DateTimeUtil.getTimeformat());
                 param.put("updTime", DateTimeUtil.getTimeformat());
@@ -180,7 +180,7 @@ public class ProjectService {
                 param.put("fileid", projectRequest.getFileid());
                 param.put("filename", projectRequest.getFilename());
                 param.put("filepath", projectRequest.getFilepath());
-                param.put("glid", requestData.getRequest().getId());
+                param.put("glid", requestData.getRequest().getProjectid());
                 param.put("filemark", "1");
                 param.put("addTime", DateTimeUtil.getTimeformat());
                 param.put("updTime", DateTimeUtil.getTimeformat());

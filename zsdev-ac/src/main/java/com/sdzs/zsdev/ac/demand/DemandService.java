@@ -149,6 +149,24 @@ public class DemandService {
             if(editdemand <=0){
                 return new SysErrResponse( "修改发生错误").toJsonString();
             }
+            int result = 0;
+            for (String advertId : requestData.getRequest().getProjectUpload()) {
+                ProjectRequest projectRequest = JSON.parseObject(advertId, new TypeReference<ProjectRequest>() {
+                });
+                Map<String, String> param = new HashMap<>();
+                param.put("fileid", projectRequest.getFileid());
+                param.put("filename", projectRequest.getFilename());
+                param.put("filepath", projectRequest.getFilepath());
+                param.put("glid", requestData.getRequest().getId());
+                param.put("filemark", "2");
+                param.put("addTime", DateTimeUtil.getTimeformat());
+                param.put("updTime", DateTimeUtil.getTimeformat());
+                param.put("operator", requestData.getUserid());
+                result = this.projectRepository.addannex(param);
+                if (result <= 0) {
+                    return new SysErrResponse("文件:"+projectRequest.getFilename()+" 插入失败，请重新操作！").toJsonString();
+                }
+            }
         }
         return new SysResponse().toJsonString();
     }
