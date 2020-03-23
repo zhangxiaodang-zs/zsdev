@@ -4,9 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.sdzs.zsdev.ac.project.ProjectRepository;
-import com.sdzs.zsdev.ac.project.ProjectRequest;
-import com.sdzs.zsdev.ac.project.ProjectResponse;
+import com.sdzs.zsdev.ac.project.*;
 import com.sdzs.zsdev.core.request.WebRequest;
 import com.sdzs.zsdev.core.response.SysErrResponse;
 import com.sdzs.zsdev.core.response.SysResponse;
@@ -38,6 +36,9 @@ public class DemandService {
 
     @Autowired
     private DemandRepository demandRepository;
+
+    @Autowired
+    private ProjectRepository projectRepository;
 
     /**
      * 需求查询接口实现.
@@ -87,11 +88,30 @@ public class DemandService {
         }else{
             //不重复
             map = SdyfJsonUtil.beanToMap(requestData.getRequest());
-            map.put("id", CommonUtil.getUUid());
+            String uuid = CommonUtil.getUUid();
+            map.put("id", uuid);
             map.put("addTime", DateTimeUtil.getTimeformat());
             map.put("updTime", DateTimeUtil.getTimeformat());
             map.put("operator", requestData.getUserid());
             int adddemand = demandRepository.adddemand(map);
+            int result = 0;
+            for (String advertId : requestData.getRequest().getProjectUpload()) {
+                ProjectRequest projectRequest = JSON.parseObject(advertId, new TypeReference<ProjectRequest>() {
+                });
+                Map<String, String> param = new HashMap<>();
+                param.put("fileid", projectRequest.getFileid());
+                param.put("filename", projectRequest.getFilename());
+                param.put("filepath", projectRequest.getFilepath());
+                param.put("glid", uuid);
+                param.put("filemark", "2");
+                param.put("addTime", DateTimeUtil.getTimeformat());
+                param.put("updTime", DateTimeUtil.getTimeformat());
+                param.put("operator", requestData.getUserid());
+                result = this.projectRepository.addannex(param);
+                if (result <= 0) {
+                    return new SysErrResponse("文件:"+projectRequest.getFilename()+" 插入失败，请重新操作！").toJsonString();
+                }
+            }
         }
         return new SysResponse().toJsonString();
     }
@@ -154,5 +174,24 @@ public class DemandService {
             }
         }
         return new SysResponse().toJsonString();
+    }
+
+    /**
+     * 附件查询接口实现.
+     *
+     * @return Json字符串数据
+     */
+    public String fileQuery(WebRequest<DemandRequest> requestData) {
+        HashMap map = SdyfJsonUtil.beanToMap("");
+        map.put("glid",requestData.getRequest().getId());
+        //查询项目下附件
+        List<Map<String, Object>> fileData = projectRepository.queryFileList(map);
+        //创建接收对象
+        WebResponse<UploadResponse> web = new WebResponse<>();
+        UploadResponse uploadResponse = new UploadResponse();
+
+        uploadResponse.setProjectUpload(fileData);
+        web.setResponse(uploadResponse);
+        return JSONObject.toJSON(web).toString();
     }
 }

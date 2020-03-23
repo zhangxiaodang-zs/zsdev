@@ -3,6 +3,7 @@ package com.sdzs.zsdev.ac.demand;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.sdzs.zsdev.ac.project.ProjectRequest;
+import com.sdzs.zsdev.ac.project.UploadRequest;
 import com.sdzs.zsdev.core.request.WebRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,5 +85,20 @@ public class DemandController {
         });
         log.info("web需求删除---------->传入的参数为：{}", requestData);
         return demandService.demandDel(demandRequest);
+    }
+
+
+    /**
+     * 附件查询.
+     *
+     * @return String字符串
+     */
+    @RequestMapping("/demandfilequery")
+    public String demandfilequery(@RequestBody String requestData) {
+
+        WebRequest<DemandRequest> demandRequest = JSON.parseObject(requestData, new TypeReference<WebRequest<DemandRequest>>() {
+        });
+        log.info("web项目查询---------->传入的参数为：{}", requestData);
+        return demandService.fileQuery(demandRequest);
     }
 }

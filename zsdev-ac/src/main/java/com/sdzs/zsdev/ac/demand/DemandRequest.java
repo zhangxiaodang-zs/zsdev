@@ -46,6 +46,18 @@ public class DemandRequest {
     // 项目名称
     private String projectname;
 
+    //附件id
+    private String fileid;
+
+    //附件名称
+    private String filename;
+
+    //附件路径
+    private String filepath;
+
+    //附件列表
+    private List<String> projectUpload;
+
     // 当前页码，如果等于空，表示不分页
     private String currentpage;
 
@@ -178,6 +190,38 @@ public class DemandRequest {
         this.projectname = projectname;
     }
 
+    public String getFileid() {
+        return fileid;
+    }
+
+    public void setFileid(String fileid) {
+        this.fileid = fileid;
+    }
+
+    public String getFilename() {
+        return filename;
+    }
+
+    public void setFilename(String filename) {
+        this.filename = filename;
+    }
+
+    public String getFilepath() {
+        return filepath;
+    }
+
+    public void setFilepath(String filepath) {
+        this.filepath = filepath;
+    }
+
+    public List<String> getProjectUpload() {
+        return projectUpload;
+    }
+
+    public void setProjectUpload(List<String> projectUpload) {
+        this.projectUpload = projectUpload;
+    }
+
     @Override
     public String toString() {
         return "DemandRequest{" +
@@ -191,6 +235,10 @@ public class DemandRequest {
                 ", projectname='" + projectname + '\'' +
                 ", addtime='" + addtime + '\'' +
                 ", updtime='" + updtime + '\'' +
+                ", projectUpload='" + projectUpload + '\'' +
+                ", fileid='" + fileid + '\'' +
+                ", filepath='" + filepath + '\'' +
+                ", filename='" + filename + '\'' +
                 ", currentpage='" + currentpage + '\'' +
                 ", startindex='" + startindex + '\'' +
                 ", pagesize='" + pagesize + '\'' +
