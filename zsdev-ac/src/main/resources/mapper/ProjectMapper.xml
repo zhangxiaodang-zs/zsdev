@@ -186,10 +186,10 @@
 
     <select id="queryFileList" resultType="Map" parameterType="Map">
         SELECT
-        a.id as id,
-        a.annex_name,
-        a.annex_path,
-        a.annex_mark
+        a.id as fileid,
+        a.annex_name as filename,
+        a.annex_path as filepath,
+        a.annex_mark as filemark
         FROM
         zs_annex a
         WHERE
