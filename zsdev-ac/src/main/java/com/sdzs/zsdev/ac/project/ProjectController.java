@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.sdzs.zsdev.core.request.WebRequest;
-import com.sdzs.zsdev.core.response.SysResponse;
 import com.sdzs.zsdev.core.response.WebResponse;
 import com.sdzs.zsdev.core.utils.CommonUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -95,11 +94,10 @@ public class ProjectController {
 
     /**
      * 文件上传
-     *
-     * */
+     */
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
-    public String upload(@RequestParam("file")MultipartFile files,HttpServletRequest request, HttpServletResponse response) throws IOException {
-        JSONObject json=new JSONObject();
+    public String upload(@RequestParam("file") MultipartFile files, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        JSONObject json = new JSONObject();
         response.setCharacterEncoding("utf-8");
         String msg = "添加成功";
         log.info("-------------------开始调用上传文件upload接口-------------------");
@@ -107,8 +105,8 @@ public class ProjectController {
         //创建接收对象
         WebResponse<UploadResponse> web = new WebResponse<>();
         UploadResponse uploadResponse = new UploadResponse();
-        try{
-            String path = "D:/wjjs/"+new Date().getTime()+ "/" + files.getOriginalFilename();
+        try {
+            String path = "/home/zsdev/upload/" + new Date().getTime() + "/" + files.getOriginalFilename();
             File fileDir = new File(path);
             if (!fileDir.exists()) { //如果不存在 则创建
                 fileDir.mkdirs();
@@ -121,7 +119,7 @@ public class ProjectController {
             uploadResponse.setMsg("上传成功");
             web.setResponse(uploadResponse);
 
-        }catch(Exception e){
+        } catch (Exception e) {
             uploadResponse.setMsg("上传失败");
             web.setResponse(uploadResponse);
         }

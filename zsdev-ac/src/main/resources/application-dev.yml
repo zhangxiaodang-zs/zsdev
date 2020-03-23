@@ -10,6 +10,11 @@ spring:
     url: jdbc:mysql://47.105.140.239:3306/zs?allowMultiQueries=true&characterEncoding=utf8&useSSL=false&useAffectedRows=true&serverTimezone=UTC
     username: zsdev
     password: 0gCNRrQkdDvYVbVi
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 100MB
+      max-request-size: 500MB
 mybatis:
   mapper-locations: classpath*:mapper/*.xml
   configuration:
