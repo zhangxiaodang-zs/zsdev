@@ -82,6 +82,7 @@ public class ProjectService {
         map.put("projectnamejq",requestData.getRequest().getProjectname());
         //精确查询
         List<Map<String, Object>> lstData = projectRepository.projectQueryListjq(map);
+        String uuid = CommonUtil.getUUid();
         if(null != lstData && lstData.size() != 0){
             //重复
             return new SysErrResponse( "您输入的项目名称已存在，请重新输入！").toJsonString();
@@ -100,7 +101,7 @@ public class ProjectService {
                 //当天无新建的项目
                 projectnumber = "ZS"+ DateTimeUtil.getTimeformat().substring(0,8) + "_001";
             }
-            map.put("id", CommonUtil.getUUid());
+            map.put("id", uuid);
             map.put("projectid",projectnumber);
             map.put("projectname",requestData.getRequest().getProjectname());
             map.put("actualsttime",requestData.getRequest().getActualsttime());
@@ -124,7 +125,7 @@ public class ProjectService {
                 param.put("fileid", projectRequest.getFileid());
                 param.put("filename", projectRequest.getFilename());
                 param.put("filepath", projectRequest.getFilepath());
-                param.put("glid", projectnumber);
+                param.put("glid", uuid);
                 param.put("filemark", "1");
                 param.put("addTime", DateTimeUtil.getTimeformat());
                 param.put("updTime", DateTimeUtil.getTimeformat());
@@ -170,6 +171,24 @@ public class ProjectService {
             int editproject = projectRepository.editproject(map);
             if(editproject <=0){
                 return new SysErrResponse( "修改发生错误").toJsonString();
+            }
+            int result = 0;
+            for (String advertId : requestData.getRequest().getProjectUpload()) {
+                ProjectRequest projectRequest = JSON.parseObject(advertId, new TypeReference<ProjectRequest>() {
+                });
+                Map<String, String> param = new HashMap<>();
+                param.put("fileid", projectRequest.getFileid());
+                param.put("filename", projectRequest.getFilename());
+                param.put("filepath", projectRequest.getFilepath());
+                param.put("glid", requestData.getRequest().getId());
+                param.put("filemark", "1");
+                param.put("addTime", DateTimeUtil.getTimeformat());
+                param.put("updTime", DateTimeUtil.getTimeformat());
+                param.put("operator", requestData.getUserid());
+                result = this.projectRepository.addannex(param);
+                if (result <= 0) {
+                    return new SysErrResponse("文件:"+projectRequest.getFilename()+" 插入失败，请重新操作！").toJsonString();
+                }
             }
         }
         return new SysResponse().toJsonString();

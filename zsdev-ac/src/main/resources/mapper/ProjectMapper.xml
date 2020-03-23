@@ -177,7 +177,8 @@
 		    ,#{updTime}
 		    ,#{operator}
 		    ,#{glid}
-		    );
+		    )
+		    ON DUPLICATE KEY UPDATE id= #{fileid}
     </insert>
 
     <delete id="delfile" parameterType="Map">
