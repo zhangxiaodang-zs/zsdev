@@ -7,14 +7,18 @@ import com.sdzs.zsdev.core.request.WebRequest;
 import com.sdzs.zsdev.core.response.WebResponse;
 import com.sdzs.zsdev.core.utils.CommonUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.ContextLoader;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.net.URLEncoder;
 import java.util.Date;
 
 /**
@@ -130,18 +134,16 @@ public class ProjectController {
     /**
      * 文件下载
      */
-    @RequestMapping(value = "/doPost", method = RequestMethod.POST)
-    public void doPost(@RequestBody String requestData, HttpServletResponse response) throws ServletException, IOException {
+    @GetMapping(value = "/doPost")
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=utf-8");
-        WebRequest<ProjectRequest> projectRequest = JSON.parseObject(requestData, new TypeReference<WebRequest<ProjectRequest>>() {
-        });
-        String filename = projectRequest.getRequest().getFilename();
+        String filename = request.getParameter("filename");
         FileInputStream fis = null;
         BufferedInputStream bis = null;
         OutputStream os = null;
         try {
             //获取下载文件所在路径
-            String path = projectRequest.getRequest().getFilepath() + "/" + filename;
+            String path = request.getParameter("filepath");
             //文件
             File file = new File(path);
             //判断文件是否存在
@@ -173,6 +175,58 @@ public class ProjectController {
                 fis.close();
             }
         }
+
+    // 下载
+    @GetMapping(value = "/doPosts")
+    public byte[] getIcon(HttpServletRequest request,HttpServletResponse response)throws Exception {
+//        WebRequest<ProjectRequest> projectRequest = JSON.parseObject(requestData, new TypeReference<WebRequest<ProjectRequest>>() {
+//        });
+
+        String res = request.getParameter("filepath");
+        InputStream is =null;
+        try {
+            is = new FileInputStream(new File(res));
+        }catch (Exception e){
+            // TODO: handle exception
+            e.printStackTrace();
+        }
+        String filenamedisplay = request.getParameter("filename");
+        response.addHeader("Content-Disposition","attachment;filename=" + new Date().getTime() + "." + request.getParameter("filename").substring(request.getParameter("filename").lastIndexOf(".") + 1));
+        return IOUtils.toByteArray(is);
+    }
+
+    @GetMapping(value = "/doPostss")
+    public void getWordFile(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        final String fileNameString = request.getParameter("filename"); //声明要下载的文件名
+        //String fileName = new String(fileNameString.getBytes("ISO8859-1"), "UTF-8");
+        response.setContentType("application/octet-stream");
+        // URLEncoder.encode(fileNameString, "UTF-8") 下载文件名为中文的，文件名需要经过url编码
+        response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(fileNameString, "UTF-8"));
+        File file;
+        FileInputStream fileIn = null;
+        ServletOutputStream out = null;
+        try {
+            String contextPath = ContextLoader.getCurrentWebApplicationContext().getServletContext().getRealPath("/");
+            String filePathString = contextPath + "database" + File.separator + fileNameString;
+            file = new File(filePathString);
+            fileIn = new FileInputStream(file);
+            out = response.getOutputStream();
+
+            byte[] outputByte = new byte[1024];
+            int readTmp = 0;
+            while ((readTmp = fileIn.read(outputByte)) != -1) {
+                out.write(outputByte, 0, readTmp); //并不是每次都能读到1024个字节，所有用readTmp作为每次读取数据的长度，否则会出现文件损坏的错误
+            }
+        }
+        catch (Exception e) {
+            log.error(e.getMessage());
+        }
+        finally {
+            fileIn.close();
+            out.flush();
+            out.close();
+        }
+    }
 
     /**
      * 附件删除.
