@@ -11,10 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.Date;
 
 /**
@@ -126,6 +126,53 @@ public class ProjectController {
         log.info("-------------------结束调用上传文件upload接口-------------------");
         return JSONObject.toJSON(web).toString();
     }
+
+    /**
+     * 文件下载
+     */
+    @RequestMapping(value = "/doPost", method = RequestMethod.POST)
+    public void doPost(@RequestBody String requestData, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("text/html;charset=utf-8");
+        WebRequest<ProjectRequest> projectRequest = JSON.parseObject(requestData, new TypeReference<WebRequest<ProjectRequest>>() {
+        });
+        String filename = projectRequest.getRequest().getFilename();
+        FileInputStream fis = null;
+        BufferedInputStream bis = null;
+        OutputStream os = null;
+        try {
+            //获取下载文件所在路径
+            String path = projectRequest.getRequest().getFilepath() + "/" + filename;
+            //文件
+            File file = new File(path);
+            //判断文件是否存在
+            if(file.exists()){
+                //且仅当此对象抽象路径名表示的文件或目录存在时，返回true
+                response.setContentType("application/pdf");
+                //控制下载文件的名字
+                response.addHeader("Content-Disposition", "attachment;filename="+filename);
+
+                byte buf[] = new byte[1024];
+
+                fis = new FileInputStream(file);
+                bis = new BufferedInputStream(fis);
+                os = response.getOutputStream();
+                int i = bis.read(buf);
+                while(i!=-1){
+                    os.write(buf,0,i);
+                    i = bis.read(buf);
+                }
+            }else{
+                System.out.println("您下载的资源已经不存在了");
+            }
+            } catch (Exception e) {
+                // TODO: handle exception
+                e.printStackTrace();
+            }finally{
+                os.close();
+                bis.close();
+                fis.close();
+            }
+        }
 
     /**
      * 附件删除.
