@@ -147,7 +147,7 @@ public class ProjectController {
             //判断文件是否存在
             if(file.exists()){
                 //且仅当此对象抽象路径名表示的文件或目录存在时，返回true
-                response.setContentType("application/pdf");
+                response.setContentType("application/" + filename.substring(filename.lastIndexOf(".") + 1));
                 //控制下载文件的名字
                 response.addHeader("Content-Disposition", "attachment;filename="+filename);
 
