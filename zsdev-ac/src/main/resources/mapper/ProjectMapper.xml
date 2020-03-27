@@ -29,10 +29,13 @@
         <if test="todaytime != null and todaytime != ''">
             SUBSTRING(p.project_id,-3) as projectnumber,
         </if>
-        p.updtime as updtime
+        p.updtime as updtimep,
+        p.operator as operator,
+        ifnull(u1.uname, '　') as operatorname
         FROM
         zs_project p
         left join turnin_user u on p.principal=u.uid
+        left join turnin_user u1 on p.operator=u1.uid
         WHERE
         1 = 1
         <if test="projectname != null and projectname != ''">

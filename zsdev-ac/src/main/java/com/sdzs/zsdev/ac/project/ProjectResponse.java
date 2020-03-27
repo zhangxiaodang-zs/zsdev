@@ -83,6 +83,12 @@ public class ProjectResponse {
         // 更新时间
         private String updtime;
 
+        // 操作人
+        private String operator;
+
+        // 操作人名
+        private String operatorname;
+
         //附件id
         private String fileid;
 
@@ -226,6 +232,22 @@ public class ProjectResponse {
             this.projectUpload = projectUpload;
         }
 
+        public String getOperator() {
+            return operator;
+        }
+
+        public void setOperator(String operator) {
+            this.operator = operator;
+        }
+
+        public String getOperatorname() {
+            return operatorname;
+        }
+
+        public void setOperatorname(String operatorname) {
+            this.operatorname = operatorname;
+        }
+
         @Override
         public String toString() {
             return "ProjectListResponse{" +
@@ -243,6 +265,8 @@ public class ProjectResponse {
                     ", fileid='" + fileid + '\'' +
                     ", filepath='" + filepath + '\'' +
                     ", filename='" + filename + '\'' +
+                    ", operator='" + operator + '\'' +
+                    ", operatorname='" + operatorname + '\'' +
                     '}';
         }
     }

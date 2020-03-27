@@ -25,11 +25,14 @@
         ifnull(u.uname, '　') as username,
         d.addtime as addtime,
         d.updtime as updtime,
-        p.project_name as projectname
+        p.project_name as projectname,
+        d.operator as operator,
+        ifnull(u1.uname, '　') as operatorname
         FROM
         zs_demand d
         left join turnin_user u on d.principal=u.uid
         left join zs_project p on  d.project_id=p.project_id
+        left join turnin_user u1 on d.operator=u1.uid
         WHERE
         1 = 1
         <if test="demandname != null and demandname != ''">

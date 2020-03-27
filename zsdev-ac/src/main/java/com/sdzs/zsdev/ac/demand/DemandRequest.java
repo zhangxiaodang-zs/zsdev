@@ -46,6 +46,12 @@ public class DemandRequest {
     // 项目名称
     private String projectname;
 
+    // 操作人
+    private String operator;
+
+    // 操作人名
+    private String operatorname;
+
     //附件id
     private String fileid;
 
@@ -222,6 +228,22 @@ public class DemandRequest {
         this.projectUpload = projectUpload;
     }
 
+    public String getOperator() {
+        return operator;
+    }
+
+    public void setOperator(String operator) {
+        this.operator = operator;
+    }
+
+    public String getOperatorname() {
+        return operatorname;
+    }
+
+    public void setOperatorname(String operatorname) {
+        this.operatorname = operatorname;
+    }
+
     @Override
     public String toString() {
         return "DemandRequest{" +
@@ -235,6 +257,8 @@ public class DemandRequest {
                 ", projectname='" + projectname + '\'' +
                 ", addtime='" + addtime + '\'' +
                 ", updtime='" + updtime + '\'' +
+                ", operator='" + operator + '\'' +
+                ", operatorname='" + operatorname + '\'' +
                 ", projectUpload='" + projectUpload + '\'' +
                 ", fileid='" + fileid + '\'' +
                 ", filepath='" + filepath + '\'' +

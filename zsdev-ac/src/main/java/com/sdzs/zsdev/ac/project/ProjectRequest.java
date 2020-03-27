@@ -62,6 +62,9 @@ public class ProjectRequest {
     //附件路径
     private String filepath;
 
+    // 操作人名
+    private String operatorname;
+
     //附件列表
     private List<String> projectUpload;
 
@@ -245,6 +248,14 @@ public class ProjectRequest {
         this.projectUpload = projectUpload;
     }
 
+    public String getOperatorname() {
+        return operatorname;
+    }
+
+    public void setOperatorname(String operatorname) {
+        this.operatorname = operatorname;
+    }
+
     @Override
     public String toString() {
         return "ProjectRequest{" +
@@ -258,6 +269,8 @@ public class ProjectRequest {
                 ", principal='" + principal + '\'' +
                 ", addtime='" + addtime + '\'' +
                 ", updtime='" + updtime + '\'' +
+                ", operator='" + operator + '\'' +
+                ", operatorname='" + operatorname + '\'' +
                 ", projectUpload='" + projectUpload + '\'' +
                 ", fileid='" + fileid + '\'' +
                 ", filepath='" + filepath + '\'' +
