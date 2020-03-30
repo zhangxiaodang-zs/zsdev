@@ -69,7 +69,7 @@
         </if>
 
         <if test="pagingOrNot != null and pagingOrNot != ''">
-            LIMIT #{startindex},#{pagesize};
+            LIMIT #{startindex},#{pagesize}
         </if>
         ) s where 1=1
         <if test="status != null and status != ''">
