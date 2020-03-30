@@ -89,6 +89,9 @@ public class ProjectResponse {
         // 操作人名
         private String operatorname;
 
+        // 状态
+        private String status;
+
         //附件id
         private String fileid;
 
@@ -248,6 +251,14 @@ public class ProjectResponse {
             this.operatorname = operatorname;
         }
 
+        public String getStatus() {
+            return status;
+        }
+
+        public void setStatus(String status) {
+            this.status = status;
+        }
+
         @Override
         public String toString() {
             return "ProjectListResponse{" +
@@ -267,6 +278,7 @@ public class ProjectResponse {
                     ", filename='" + filename + '\'' +
                     ", operator='" + operator + '\'' +
                     ", operatorname='" + operatorname + '\'' +
+                    ", status='" + status + '\'' +
                     '}';
         }
     }

@@ -62,11 +62,17 @@ public class DemandResponse {
         // 用户名称
         private String username;
 
-        // 开始时间
+        // 预计开始时间
         private String starttime;
 
-        // 结束时间
+        // 预计结束时间
         private String endtime;
+
+        // 实际开始时间
+        private String actualsttime;
+
+        // 实际结束时间
+        private String actualentime;
 
         // 需求内容
         private String demandcontent;
@@ -85,6 +91,9 @@ public class DemandResponse {
 
         //返回集合
         private Object demandlist;
+
+        // 状态
+        private String status;
 
         //附件id
         private String fileid;
@@ -248,15 +257,41 @@ public class DemandResponse {
             this.operatorname = operatorname;
         }
 
+        public String getActualsttime() {
+            return actualsttime;
+        }
+
+        public void setActualsttime(String actualsttime) {
+            this.actualsttime = actualsttime;
+        }
+
+        public String getActualentime() {
+            return actualentime;
+        }
+
+        public void setActualentime(String actualentime) {
+            this.actualentime = actualentime;
+        }
+
+        public String getStatus() {
+            return status;
+        }
+
+        public void setStatus(String status) {
+            this.status = status;
+        }
+
         @Override
         public String toString() {
             return "DemandListResponse{" +
                     "id='" + id + '\'' +
                     ", projectid='" + projectid + '\'' +
-                    ", projectid='" + projectname + '\'' +
+                    ", projectname='" + projectname + '\'' +
                     ", demandname='" + demandname + '\'' +
                     ", starttime='" + starttime + '\'' +
                     ", endtime='" + endtime + '\'' +
+                    ", actualsttime='" + actualsttime + '\'' +
+                    ", actualentime='" + actualentime + '\'' +
                     ", demandcontent='" + demandcontent + '\'' +
                     ", principal='" + principal + '\'' +
                     ", username='" + username + '\'' +
@@ -267,6 +302,7 @@ public class DemandResponse {
                     ", filename='" + filename + '\'' +
                     ", operator='" + operator + '\'' +
                     ", operatorname='" + operatorname + '\'' +
+                    ", status='" + status + '\'' +
                     '}';
         }
     }

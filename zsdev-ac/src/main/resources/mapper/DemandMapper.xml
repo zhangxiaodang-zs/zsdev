@@ -27,7 +27,17 @@
         d.updtime as updtime,
         p.project_name as projectname,
         d.operator as operator,
-        ifnull(u1.uname, '　') as operatorname
+        ifnull(u1.uname, '　') as operatorname,
+        CASE
+        WHEN (d.actual_st_time IS NULL or d.actual_st_time='') AND (d.actual_en_time IS NULL or d.actual_en_time = '') THEN
+        '未开始'
+        WHEN d.actual_st_time IS NOT NULL AND d.actual_st_time!='' AND (d.actual_en_time IS NULL or d.actual_en_time = '') THEN
+        '进行中'
+        WHEN d.actual_st_time IS NOT NULL AND d.actual_st_time!='' AND d.actual_en_time IS NOT NULL and d.actual_en_time != '' THEN
+        '已结束'
+        ELSE
+        '--'
+        END status
         FROM
         zs_demand d
         left join turnin_user u on d.principal=u.uid
@@ -41,7 +51,7 @@
         <if test="demandnamejq != null and demandnamejq != ''">
             AND d.demand_name = #{demandnamejq}
         </if>
-        ORDER BY d.addtime DESC
+        ORDER BY d.project_id DESC
         <if test="pagingOrNot != null and pagingOrNot != ''">
             LIMIT #{startindex},#{pagesize};
         </if>

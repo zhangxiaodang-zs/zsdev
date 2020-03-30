@@ -31,7 +31,17 @@
         </if>
         p.updtime as updtimep,
         p.operator as operator,
-        ifnull(u1.uname, '　') as operatorname
+        ifnull(u1.uname, '　') as operatorname,
+        CASE
+        WHEN (p.actual_st_time IS NULL or p.actual_st_time='') AND (p.actual_en_time IS NULL or p.actual_en_time = '') THEN
+        '未开始'
+        WHEN p.actual_st_time IS NOT NULL AND p.actual_st_time!='' AND (p.actual_en_time IS NULL or p.actual_en_time = '') THEN
+        '进行中'
+        WHEN p.actual_st_time IS NOT NULL AND p.actual_st_time!='' AND p.actual_en_time IS NOT NULL and p.actual_en_time != '' THEN
+        '已结束'
+        ELSE
+        '--'
+        END status
         FROM
         zs_project p
         left join turnin_user u on p.principal=u.uid
