@@ -53,6 +53,9 @@ public class ProjectRequest {
     // 操作人
     private String operator;
 
+    // 状态
+    private String status;
+
     //附件id
     private String fileid;
 
@@ -256,6 +259,14 @@ public class ProjectRequest {
         this.operatorname = operatorname;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     @Override
     public String toString() {
         return "ProjectRequest{" +
@@ -279,6 +290,7 @@ public class ProjectRequest {
                 ", startindex='" + startindex + '\'' +
                 ", pagesize='" + pagesize + '\'' +
                 ", draw='" + draw + '\'' +
+                ", status='" + status + '\'' +
                 '}';
     }
 }
