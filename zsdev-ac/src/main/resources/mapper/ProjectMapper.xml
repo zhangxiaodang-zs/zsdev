@@ -14,6 +14,7 @@
        -->
     <!-- 查询主机构信息列表. -->
     <select id="projectQueryList" resultType="Map" parameterType="Map">
+        select * from (
         SELECT
         p.id as id,
         p.project_id as projectid,
@@ -69,6 +70,10 @@
 
         <if test="pagingOrNot != null and pagingOrNot != ''">
             LIMIT #{startindex},#{pagesize};
+        </if>
+        ) s where 1=1
+        <if test="status != null and status != ''">
+            AND s.status = #{status}
         </if>
     </select>
 
