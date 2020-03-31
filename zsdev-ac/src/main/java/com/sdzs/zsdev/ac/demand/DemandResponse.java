@@ -62,17 +62,17 @@ public class DemandResponse {
         // 用户名称
         private String username;
 
-        // 预计开始时间
+        // 实际开始时间
         private String starttime;
 
-        // 预计结束时间
+        // 实际结束时间
         private String endtime;
 
-        // 实际开始时间
-        private String actualsttime;
+        // 预计开始时间
+        private String expectedsttime;
 
-        // 实际结束时间
-        private String actualentime;
+        // 预计结束时间
+        private String expectedentime;
 
         // 需求内容
         private String demandcontent;
@@ -257,20 +257,20 @@ public class DemandResponse {
             this.operatorname = operatorname;
         }
 
-        public String getActualsttime() {
-            return actualsttime;
+        public String getExpectedsttime() {
+            return expectedsttime;
         }
 
-        public void setActualsttime(String actualsttime) {
-            this.actualsttime = actualsttime;
+        public void setExpectedsttime(String expectedsttime) {
+            this.expectedsttime = expectedsttime;
         }
 
-        public String getActualentime() {
-            return actualentime;
+        public String getExpectedentime() {
+            return expectedentime;
         }
 
-        public void setActualentime(String actualentime) {
-            this.actualentime = actualentime;
+        public void setExpectedentime(String expectedentime) {
+            this.expectedentime = expectedentime;
         }
 
         public String getStatus() {
@@ -290,8 +290,8 @@ public class DemandResponse {
                     ", demandname='" + demandname + '\'' +
                     ", starttime='" + starttime + '\'' +
                     ", endtime='" + endtime + '\'' +
-                    ", actualsttime='" + actualsttime + '\'' +
-                    ", actualentime='" + actualentime + '\'' +
+                    ", expectedsttime='" + expectedsttime + '\'' +
+                    ", expectedentime='" + expectedentime + '\'' +
                     ", demandcontent='" + demandcontent + '\'' +
                     ", principal='" + principal + '\'' +
                     ", username='" + username + '\'' +

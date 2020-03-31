@@ -21,6 +21,8 @@
         ifnull(d.demand_name, '　') as demandname,
         d.start_time as starttime,
         d.end_time as endtime,
+        d.expected_st_time as expectedsttime,
+        d.expected_en_time as expectedentime,
         d.demand_content as demandcontent,
         d.principal as principal,
         ifnull(u.uname, '　') as username,
@@ -30,11 +32,11 @@
         d.operator as operator,
         ifnull(u1.uname, '　') as operatorname,
         CASE
-        WHEN (d.actual_st_time IS NULL or d.actual_st_time='') AND (d.actual_en_time IS NULL or d.actual_en_time = '') THEN
+        WHEN (d.start_time IS NULL or d.start_time='') AND (d.end_time IS NULL or d.end_time = '') THEN
         '未开始'
-        WHEN d.actual_st_time IS NOT NULL AND d.actual_st_time!='' AND (d.actual_en_time IS NULL or d.actual_en_time = '') THEN
+        WHEN d.start_time IS NOT NULL AND d.start_time!='' AND (d.end_time IS NULL or d.end_time = '') THEN
         '进行中'
-        WHEN d.actual_st_time IS NOT NULL AND d.actual_st_time!='' AND d.actual_en_time IS NOT NULL and d.actual_en_time != '' THEN
+        WHEN d.start_time IS NOT NULL AND d.start_time!='' AND d.end_time IS NOT NULL and d.end_time != '' THEN
         '已结束'
         ELSE
         '--'
@@ -96,6 +98,8 @@
             ,demand_name
             ,start_time
             ,end_time
+            ,expected_st_time
+            ,expected_en_time
             ,demand_content
             ,principal
             ,addtime
@@ -108,6 +112,8 @@
 		    ,#{demandname}
 		    ,#{starttime}
 		    ,#{endtime}
+		    ,#{expectedsttime}
+		    ,#{expectedentime}
 		    ,#{demandcontent}
 		    ,#{principal}
 		    ,#{addTime}
@@ -127,6 +133,12 @@
         </if>
         <if test="endtime != null and endtime != ''">
             ,end_time=#{endtime}
+        </if>
+        <if test="expectedsttime != null and expectedsttime != ''">
+            ,expected_st_time=#{expectedsttime}
+        </if>
+        <if test="expectedentime != null and expectedentime != ''">
+            ,expected_en_time=#{expectedentime}
         </if>
         <if test="demandcontent != null and demandcontent != ''">
             ,demand_content=#{demandcontent}

@@ -32,10 +32,10 @@ public class DemandRequest {
     private String endtime;
 
     // 实际开始时间
-    private String actualsttime;
+    private String expectedsttime;
 
     // 实际结束时间
-    private String actualentime;
+    private String expectedentime;
 
     // 需求内容
     private String demandcontent;
@@ -253,20 +253,20 @@ public class DemandRequest {
         this.operatorname = operatorname;
     }
 
-    public String getActualsttime() {
-        return actualsttime;
+    public String getExpectedsttime() {
+        return expectedsttime;
     }
 
-    public void setActualsttime(String actualsttime) {
-        this.actualsttime = actualsttime;
+    public void setExpectedsttime(String expectedsttime) {
+        this.expectedsttime = expectedsttime;
     }
 
-    public String getActualentime() {
-        return actualentime;
+    public String getExpectedentime() {
+        return expectedentime;
     }
 
-    public void setActualentime(String actualentime) {
-        this.actualentime = actualentime;
+    public void setExpectedentime(String expectedentime) {
+        this.expectedentime = expectedentime;
     }
 
     public String getStatus() {
@@ -285,8 +285,8 @@ public class DemandRequest {
                 ", demandname='" + demandname + '\'' +
                 ", starttime='" + starttime + '\'' +
                 ", endtime='" + endtime + '\'' +
-                ", actualsttime='" + actualsttime + '\'' +
-                ", actualentime='" + actualentime + '\'' +
+                ", expectedsttime='" + expectedsttime + '\'' +
+                ", expectedentime='" + expectedentime + '\'' +
                 ", demandcontent='" + demandcontent + '\'' +
                 ", principal='" + principal + '\'' +
                 ", projectname='" + projectname + '\'' +
