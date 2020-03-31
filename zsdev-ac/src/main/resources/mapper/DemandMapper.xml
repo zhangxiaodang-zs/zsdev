@@ -18,7 +18,7 @@
         SELECT
         d.id as id,
         d.project_id as projectid,
-        d.demand_name as demandname,
+        ifnull(d.demand_name, '　') as demandname,
         d.start_time as starttime,
         d.end_time as endtime,
         d.demand_content as demandcontent,
@@ -26,7 +26,7 @@
         ifnull(u.uname, '　') as username,
         d.addtime as addtime,
         d.updtime as updtime,
-        p.project_name as projectname,
+        ifnull(p.project_name, '　') as projectname,
         d.operator as operator,
         ifnull(u1.uname, '　') as operatorname,
         CASE
