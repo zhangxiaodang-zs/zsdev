@@ -60,6 +60,9 @@
         <if test="status != null and status != ''">
             AND s.status = #{status}
         </if>
+        <if test="projectname != null and projectname != ''">
+            AND s.projectname LIKE "%"#{projectname}"%"
+        </if>
     </select>
 
     <select id="demandQueryListjq" resultType="Map" parameterType="Map">

@@ -67,6 +67,12 @@
         <if test="status != null and status != ''">
             AND s.status = #{status}
         </if>
+        <if test="projectname != null and projectname != ''">
+            AND t.projectname LIKE "%"#{projectname}"%"
+        </if>
+        <if test="demandname != null and demandname != ''">
+            AND t.demandname LIKE "%"#{demandname}"%"
+        </if>
     </select>
 
     <select id="taskQueryListjq" resultType="Map" parameterType="Map">
