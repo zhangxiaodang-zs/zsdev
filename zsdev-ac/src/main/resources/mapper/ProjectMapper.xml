@@ -18,7 +18,7 @@
             SELECT
             p.id as id,
             p.project_id as projectid,
-            p.project_name as projectname,
+            ifnull(p.project_name, '　') as projectname,
             p.expected_st_time as expectedsttime,
             p.expected_en_time as expectedentime,
             p.actual_st_time as actualsttime,
