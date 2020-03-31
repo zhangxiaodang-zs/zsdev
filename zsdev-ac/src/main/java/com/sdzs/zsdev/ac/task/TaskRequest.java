@@ -77,6 +77,9 @@ public class TaskRequest {
     // 请求次数
     private String draw;
 
+    // 状态
+    private String status;
+
     public String getId() {
         return id;
     }
@@ -245,6 +248,14 @@ public class TaskRequest {
         this.demandname = demandname;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     @Override
     public String toString() {
         return "TaskRequest{" +
@@ -265,6 +276,7 @@ public class TaskRequest {
                 ", startindex='" + startindex + '\'' +
                 ", pagesize='" + pagesize + '\'' +
                 ", draw='" + draw + '\'' +
+                ", status='" + status + '\'' +
                 '}';
     }
 }

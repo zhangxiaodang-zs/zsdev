@@ -72,6 +72,9 @@ public class TaskResponse {
         // 任务介绍
         private String taskcontent;
 
+        // 所属项目
+        private String projectname;
+
         // 用户名称
         private String username;
 
@@ -95,6 +98,9 @@ public class TaskResponse {
 
         //返回集合
         private Object tasklist;
+
+        // 状态
+        private String status;
 
         public String getId() {
             return id;
@@ -224,11 +230,28 @@ public class TaskResponse {
             this.demandname = demandname;
         }
 
+        public String getProjectname() {
+            return projectname;
+        }
+
+        public void setProjectname(String projectname) {
+            this.projectname = projectname;
+        }
+
+        public String getStatus() {
+            return status;
+        }
+
+        public void setStatus(String status) {
+            this.status = status;
+        }
+
         @Override
         public String toString() {
             return "TaskListResponse{" +
                     "taskid='" + id + '\'' +
                     ", taskname='" + taskname + '\'' +
+                    ", projectname='" + projectname + '\'' +
                     ", demandname='" + demandname + '\'' +
                     ", expectedsttime='" + expectedsttime + '\'' +
                     ", expectedentime='" + expectedentime + '\'' +
@@ -241,6 +264,7 @@ public class TaskResponse {
                     ", schedule='" + schedule + '\'' +
                     ", addtime='" + addtime + '\'' +
                     ", updtime='" + updtime + '\'' +
+                    ", status='" + status + '\'' +
                     '}';
         }
     }

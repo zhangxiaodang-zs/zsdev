@@ -14,6 +14,7 @@
        -->
     <!-- 查询主机构信息列表. -->
     <select id="taskQueryList" resultType="Map" parameterType="Map">
+        select * from (
         SELECT
         t.id as id,
         t.demand_id as demandid,
@@ -29,11 +30,24 @@
         t.addtime as addtime,
         ifnull(u.uname, '　') as username,
         t.updtime as updtime,
-        d.demand_name as demandname
+        d.demand_name as demandname,
+        p.project_name as projectname,
+        CASE
+        WHEN (t.actual_st_time IS NULL or t.actual_st_time='') AND (t.actual_en_time IS NULL or t.actual_en_time = '') THEN
+        '未开始'
+        WHEN t.actual_st_time IS NOT NULL AND t.actual_st_time!='' AND (t.actual_en_time IS NULL or t.actual_en_time = '') THEN
+        '进行中'
+        WHEN t.actual_st_time IS NOT NULL AND t.actual_st_time!='' AND t.actual_en_time IS NOT NULL and t.actual_en_time != '' THEN
+        '已结束'
+        ELSE
+        '--'
+        END status
         FROM
         zs_task t
         left join turnin_user u on t.principal=u.uid
         left join zs_demand d on t.demand_id=d.id
+        left join zs_demand d1 on t.demand_id=d1.project_id
+        left join zs_project p on d1.project_id=p.project_id
         WHERE
         1 = 1
         <if test="taskname != null and taskname != ''">
@@ -47,7 +61,11 @@
         </if>
         ORDER BY t.addtime DESC
         <if test="pagingOrNot != null and pagingOrNot != ''">
-            LIMIT #{startindex},#{pagesize};
+            LIMIT #{startindex},#{pagesize}
+        </if>
+        ) s where 1=1
+        <if test="status != null and status != ''">
+            AND s.status = #{status}
         </if>
     </select>
 

@@ -91,8 +91,8 @@ public class TaskService {
             map.put("taskname",requestData.getRequest().getTaskname());
             map.put("actualsttime",requestData.getRequest().getActualsttime());
             map.put("actualentime",requestData.getRequest().getActualentime());
-            map.put("expectedsttime",requestData.getRequest().getExpectedsttime());
-            map.put("expectedentime",requestData.getRequest().getExpectedentime());
+//            map.put("expectedsttime",requestData.getRequest().getExpectedsttime());
+//            map.put("expectedentime",requestData.getRequest().getExpectedentime());
             map.put("taskcontent",requestData.getRequest().getTaskcontent());
             map.put("principal",requestData.getRequest().getPrincipal());
             map.put("schedule",requestData.getRequest().getSchedule());
