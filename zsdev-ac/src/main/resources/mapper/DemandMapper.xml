@@ -49,7 +49,7 @@
         WHERE
         1 = 1
         <if test="demandname != null and demandname != ''">
-            AND d.demand_name LIKE "%"#{demandname}"%"
+            AND d.demand_name LIKE CONCAT('%',${demandname},'%')
         </if>
         <if test="demandnamejq != null and demandnamejq != ''">
             AND d.demand_name = #{demandnamejq}
@@ -63,7 +63,7 @@
             AND s.status = #{status}
         </if>
         <if test="projectname != null and projectname != ''">
-            AND s.projectname LIKE "%"#{projectname}"%"
+            AND s.projectname LIKE CONCAT('%',${projectname},'%')
         </if>
     </select>
 

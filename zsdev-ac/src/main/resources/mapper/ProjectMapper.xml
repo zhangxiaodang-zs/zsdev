@@ -50,10 +50,10 @@
             WHERE
             1 = 1
             <if test="projectname != null and projectname != ''">
-                AND p.project_name LIKE "%"#{projectname}"%"
+                AND p.project_name LIKE CONCAT('%',${projectname},'%')
             </if>
             <if test="todaytime != null and todaytime != ''">
-                AND p.project_id LIKE "%"#{todaytime}"%"
+                AND p.project_id LIKE CONCAT('%',${todaytime},'%')
             </if>
             <if test="principal != null and principal != ''">
                 AND p.principal = #{principal}
